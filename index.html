@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Interactive 8-Puzzle Solver using Depth Limited Search"
+    >
+
+    <title>DLS 8-Puzzle Solver</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="topbar-inner">
+
+        <div class="project-title">
+            <div class="project-icon">8</div>
+
+            <div>
+                <h1>DLS 8-Puzzle Solver</h1>
+                <p>Artificial Intelligence · Search Algorithms</p>
+            </div>
+        </div>
+
+        <nav>
+            <a href="#home" class="active">Home</a>
+            <a href="#solver">Solver</a>
+            <a href="#visualization">Visualization</a>
+            <a href="#algorithm">DLS</a>
+            <a href="#comparison">Comparison</a>
+            <a href="#about">About</a>
+        </nav>
+
+    </div>
+</header>
+
+<main>
+
+<section id="home" class="welcome">
+    <div class="page-width">
+
+        <div class="welcome-content">
+
+            <div>
+                <p class="page-label">ARTIFICIAL INTELLIGENCE PROJECT</p>
+
+                <h2>8-Puzzle Problem Solver</h2>
+
+                <p class="welcome-text">
+                    An interactive implementation of
+                    <strong>Depth Limited Search (DLS)</strong>
+                    for solving the 8-Puzzle state-space problem.
+                </p>
+            </div>
+
+            <div class="student-box">
+
+                <div>
+                    <span>STUDENT</span>
+                    <strong>Shreya Gupta</strong>
+                </div>
+
+                <div>
+                    <span>REGISTER NUMBER</span>
+                    <strong>24BDS0393</strong>
+                </div>
+
+                <div>
+                    <span>ALGORITHM</span>
+                    <strong>Depth Limited Search</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section id="solver" class="solver">
+    <div class="page-width">
+
+        <div class="section-header">
+
+            <div>
+                <p class="page-label">01 / PUZZLE INPUT</p>
+
+                <h2>Configure the puzzle</h2>
+            </div>
+
+            <p>
+                Define an initial state and a goal state,
+                or generate a random solvable puzzle.
+            </p>
+
+        </div>
+
+
+        <div class="solver-layout">
+
+            <div class="puzzle-panel">
+
+                <div class="panel-heading">
+
+                    <div>
+                        <span>INITIAL STATE</span>
+                        <h3>Starting Configuration</h3>
+                    </div>
+
+                    <button
+                        id="randomPuzzle"
+                        class="small-button"
+                        type="button"
+                    >
+                        Random
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="initialPuzzle"
+                    class="puzzle-board editable-puzzle"
+                >
+                    <input class="puzzle-tile puzzle-input" type="text" maxlength="1" value="2">
+                    <input class="puzzle-tile puzzle-input" type="text" maxlength="1" value="8">
+                    <input class="puzzle-tile puzzle-input" type="text" maxlength="1" value="3">
+
+                    <input class="puzzle-tile puzzle-input" type="text" maxlength="1" value="1">
+                    <input class="puzzle-tile puzzle-input" type="text" maxlength="1" value="6">
+                    <input class="puzzle-tile puzzle-input" type="text" maxlength="1" value="4">
+
+                    <input class="puzzle-tile puzzle-input" type="text" maxlength="1" value="7">
+                    <input class="puzzle-tile puzzle-input" type="text" maxlength="1" value="0">
+                    <input class="puzzle-tile puzzle-input" type="text" maxlength="1" value="5">
+                </div>
+
+                <p class="board-note">
+                    Enter digits 0–8 exactly once. Use <strong>0</strong>
+                    for the blank tile.
+                </p>
+
+            </div>
+
+
+            <div class="settings-panel">
+
+                <div class="panel-heading">
+
+                    <div>
+                        <span>SEARCH SETTINGS</span>
+                        <h3>Depth Limited Search</h3>
+                    </div>
+
+                    <span class="algorithm-number">DLS</span>
+
+                </div>
+
+
+                <div class="setting">
+
+                    <label for="depthSlider">
+                        Depth Limit
+                        <strong id="depthValue">8</strong>
+                    </label>
+
+                    <input
+                        type="range"
+                        id="depthSlider"
+                        min="1"
+                        max="30"
+                        value="8"
+                    >
+
+                    <div class="range-labels">
+                        <span>1</span>
+                        <span>30</span>
+                    </div>
+
+                </div>
+
+
+                <div class="setting">
+
+                    <label>Goal State</label>
+
+                    <div
+                        id="goalPreview"
+                        class="goal-preview editable-goal"
+                    >
+                        <input class="goal-input" type="text" maxlength="1" value="1">
+                        <input class="goal-input" type="text" maxlength="1" value="2">
+                        <input class="goal-input" type="text" maxlength="1" value="3">
+
+                        <input class="goal-input" type="text" maxlength="1" value="8">
+                        <input class="goal-input" type="text" maxlength="1" value="0">
+                        <input class="goal-input" type="text" maxlength="1" value="4">
+
+                        <input class="goal-input" type="text" maxlength="1" value="7">
+                        <input class="goal-input" type="text" maxlength="1" value="6">
+                        <input class="goal-input" type="text" maxlength="1" value="5">
+                    </div>
+
+                    <p class="board-note">
+                        The goal state must also contain 0–8 exactly once.
+                    </p>
+
+                </div>
+
+
+                <div class="action-row">
+
+                    <button
+                        id="runDLS"
+                        class="primary-action"
+                        type="button"
+                    >
+                        Run DLS
+                    </button>
+
+                    <button
+                        id="resetSearch"
+                        class="secondary-action"
+                        type="button"
+                    >
+                        Reset
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="status-bar">
+
+            <div>
+                <span>STATUS</span>
+                <strong id="searchStatus">
+                    Ready to search
+                </strong>
+            </div>
+
+            <div>
+                <span>DEPTH LIMIT</span>
+                <strong id="statusDepth">8</strong>
+            </div>
+
+            <div>
+                <span>NODES GENERATED</span>
+                <strong id="statusGenerated">0</strong>
+            </div>
+
+            <div>
+                <span>NODES EXPANDED</span>
+                <strong id="statusExpanded">0</strong>
+            </div>
+
+        </div>
+
+
+        <div class="result-panel" id="resultPanel">
+
+            <div class="result-heading">
+                <span>SEARCH RESULT</span>
+                <strong id="resultStatus">READY</strong>
+            </div>
+
+
+            <div class="result-grid">
+
+                <div class="result-item">
+                    <span>SOLUTION DEPTH</span>
+                    <strong id="resultDepth">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>PATH COST</span>
+                    <strong id="resultPathCost">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>NODES GENERATED</span>
+                    <strong id="resultGenerated">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>NODES EXPANDED</span>
+                    <strong id="resultExpanded">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>MAX DEPTH</span>
+                    <strong id="resultMaxDepth">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>CUTOFFS</span>
+                    <strong id="resultCutoffs">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>BACKTRACKS</span>
+                    <strong id="resultBacktracks">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>EXECUTION TIME</span>
+                    <strong id="resultTime">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>SEARCH MEMORY</span>
+                    <strong id="memoryUsed">—</strong>
+                </div>
+
+            </div>
+
+
+            <div class="solution-path-section">
+
+                <div class="result-heading">
+                    <span>SOLUTION PATH</span>
+                    <strong id="solutionMoveCount">—</strong>
+                </div>
+
+                <div id="solutionPath" class="solution-path">
+                    <p class="empty-message">
+                        Run DLS to generate the solution path.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section id="visualization" class="visualization">
+    <div class="page-width">
+
+        <div class="section-header">
+
+            <div>
+                <p class="page-label">02 / SEARCH VISUALIZATION</p>
+
+                <h2>Observe the search process</h2>
+            </div>
+
+            <p>
+                Follow each expansion step as DLS explores
+                the puzzle state space within the selected
+                depth boundary.
+            </p>
+
+        </div>
+
+
+        <div class="visual-controls">
+
+            <button
+                id="runVisualization"
+                class="visual-primary"
+                type="button"
+            >
+                ▶ Run
+            </button>
+
+            <button
+                id="pauseVisualization"
+                class="visual-secondary"
+                type="button"
+            >
+                ⏸ Pause
+            </button>
+
+            <button
+                id="previousStep"
+                class="visual-secondary"
+                type="button"
+            >
+                ← Previous
+            </button>
+
+            <button
+                id="nextStep"
+                class="visual-secondary"
+                type="button"
+            >
+                Next →
+            </button>
+
+            <button
+                id="resetVisualization"
+                class="visual-secondary"
+                type="button"
+            >
+                Reset
+            </button>
+
+            <span id="stepIndicator">
+                STEP 0 / 0
+            </span>
+
+        </div>
+
+
+        <div class="visual-grid">
+
+            <div class="visual-card current-node-card">
+
+                <div class="visual-card-header">
+
+                    <div>
+                        <span>CURRENT NODE</span>
+                        <h3>Current Search State</h3>
+                    </div>
+
+                    <span class="node-status">ACTIVE</span>
+
+                </div>
+
+
+                <div
+                    id="currentNodeBoard"
+                    class="current-node-board"
+                >
+                    <p class="empty-message">
+                        Run the search to view the current node.
+                    </p>
+                </div>
+
+
+                <div class="event-information">
+
+                    <div class="event-type">
+                        <span>SEARCH EVENT</span>
+
+                        <strong id="visualEventType">
+                            READY
+                        </strong>
+                    </div>
+
+                    <p id="visualEventMessage">
+                        Run DLS to begin the search trace.
+                    </p>
+
+                </div>
+
+
+                <div class="node-details">
+
+                    <div>
+                        <span>DEPTH</span>
+                        <strong id="visualCurrentDepth">0</strong>
+                    </div>
+
+                    <div>
+                        <span>MOVE</span>
+                        <strong id="visualMove">START</strong>
+                    </div>
+
+                    <div>
+                        <span>PARENT</span>
+                        <strong id="visualParent">ROOT</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="visual-card metrics-card">
+
+                <div class="visual-card-header">
+
+                    <div>
+                        <span>SEARCH TELEMETRY</span>
+                        <h3>Current Statistics</h3>
+                    </div>
+
+                </div>
+
+
+                <div class="metric-grid">
+
+                    <div class="metric">
+                        <span>CURRENT DEPTH</span>
+                        <strong id="metricCurrentDepth">0</strong>
+                    </div>
+
+                    <div class="metric">
+                        <span>GENERATED</span>
+                        <strong id="visualGenerated">0</strong>
+                    </div>
+
+                    <div class="metric">
+                        <span>EXPANDED</span>
+                        <strong id="visualExpanded">0</strong>
+                    </div>
+
+                    <div class="metric">
+                        <span>DEPTH LIMIT</span>
+                        <strong id="visualDepthLimit">8</strong>
+                    </div>
+
+                    <div class="metric">
+                        <span>CUTOFFS</span>
+                        <strong id="visualCutoffs">0</strong>
+                    </div>
+
+                    <div class="metric">
+                        <span>BACKTRACKS</span>
+                        <strong id="visualBacktracks">0</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="visual-card successors-card">
+
+            <div class="visual-card-header">
+
+                <div>
+                    <span>GENERATED SUCCESSORS</span>
+                    <h3>Possible Next States</h3>
+                </div>
+
+            </div>
+
+
+            <div
+                id="successorStates"
+                class="successor-grid"
+            >
+                <p class="empty-message">
+                    Run the search to generate successors.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="lists-grid">
+
+            <div class="visual-card list-card">
+
+                <div class="visual-card-header">
+
+                    <div>
+                        <span>SEARCH STACK</span>
+                        <h3>Depth-First Frontier</h3>
+                    </div>
+
+                </div>
+
+                <div
+                    id="frontierList"
+                    class="state-list"
+                >
+                    <div class="empty-message">
+                        Frontier is empty.
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="visual-card list-card">
+
+                <div class="visual-card-header">
+
+                    <div>
+                        <span>EXPANDED STATES</span>
+                        <h3>Search History</h3>
+                    </div>
+
+                </div>
+
+                <div
+                    id="exploredList"
+                    class="state-list"
+                >
+                    <div class="empty-message">
+                        No states expanded.
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section id="algorithm" class="algorithm">
+    <div class="page-width">
+
+        <div class="section-header">
+            <div>
+                <p class="page-label">03 / SEARCH ALGORITHM</p>
+
+                <h2>Depth Limited Search</h2>
+            </div>
+
+            <p>
+                DLS is an uninformed depth-first search strategy
+                that restricts exploration to a user-defined depth limit.
+            </p>
+        </div>
+
+        <div class="algorithm-content">
+
+            <div class="principle">
+
+                <h3>Description</h3>
+
+                <p>
+                    Depth Limited Search (DLS) is a variation of
+                    Depth First Search in which the search is allowed
+                    to explore nodes only up to a specified depth limit.
+                    In this project, DLS is applied to the 8-Puzzle
+                    state-space problem.
+                </p>
+
+                <h3>Working Principle</h3>
+
+                <div class="steps">
+
+                    <div class="step">
+                        <span>01</span>
+                        <p>Start from the initial puzzle state.</p>
+                    </div>
+
+                    <div class="step">
+                        <span>02</span>
+                        <p>Check whether the current state is the goal.</p>
+                    </div>
+
+                    <div class="step">
+                        <span>03</span>
+                        <p>Generate all valid successor states.</p>
+                    </div>
+
+                    <div class="step">
+                        <span>04</span>
+                        <p>Explore successors recursively in depth-first order.</p>
+                    </div>
+
+                    <div class="step">
+                        <span>05</span>
+                        <p>Stop expanding a node when the depth limit is reached.</p>
+                    </div>
+
+                    <div class="step">
+                        <span>06</span>
+                        <p>Backtrack and explore another branch when required.</p>
+                    </div>
+
+                    <div class="step">
+                        <span>07</span>
+                        <p>Return the solution when the goal state is reached.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="algorithm-info">
+
+                <div>
+                    <span>SEARCH TYPE</span>
+                    <strong>Uninformed Search</strong>
+                </div>
+
+                <div>
+                    <span>STRATEGY</span>
+                    <strong>Depth-First</strong>
+                </div>
+
+                <div>
+                    <span>DEPTH CONTROL</span>
+                    <strong>User Defined</strong>
+                </div>
+
+                <div>
+                    <span>TIME COMPLEXITY</span>
+                    <strong>O(b<sup>l</sup>)</strong>
+                </div>
+
+                <div>
+                    <span>SPACE COMPLEXITY</span>
+                    <strong>O(b·l)</strong>
+                </div>
+
+                <div>
+                    <span>COMPLETE</span>
+                    <strong>Only up to depth limit</strong>
+                </div>
+
+                <div>
+                    <span>OPTIMAL</span>
+                    <strong>No</strong>
+                </div>
+
+                <div>
+                    <span>APPLICATION</span>
+                    <strong>8-Puzzle</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="algorithm-details">
+
+            <div>
+                <h3>Advantages</h3>
+
+                <ul>
+                    <li>Uses significantly less memory than breadth-first search.</li>
+                    <li>Prevents the search from going beyond the selected depth.</li>
+                    <li>Simple recursive implementation.</li>
+                    <li>Useful when the expected solution depth is known or bounded.</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Limitations</h3>
+
+                <ul>
+                    <li>May fail when the solution is deeper than the selected limit.</li>
+                    <li>Does not guarantee the shortest solution.</li>
+                    <li>Performance depends strongly on the selected depth limit.</li>
+                    <li>May explore many branches before finding a solution.</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="complexity-note">
+
+            <strong>Notation:</strong>
+            <span>
+                <b>b</b> = branching factor and
+                <b>l</b> = depth limit.
+            </span>
+
+            <p>
+                For the 8-Puzzle, each state can generate up to four
+                legal moves depending on the blank-tile position.
+                The implementation also avoids revisiting a state
+                already present on the current search path.
+            </p>
+
+        </div>
+
+    </div>
+</section>
+
+<section id="comparison" class="algorithm">
+    <div class="page-width">
+
+        <div class="section-header">
+
+            <div>
+                <p class="page-label">04 / ALGORITHM COMPARISON</p>
+
+                <h2>Search Algorithm Comparison</h2>
+            </div>
+
+            <p>
+                Comparison of the search strategies specified in
+                the assignment. This project implements the assigned
+                DLS algorithm.
+            </p>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Algorithm</th>
+                        <th>Type</th>
+                        <th>Complete</th>
+                        <th>Optimal</th>
+                        <th>Time</th>
+                        <th>Space</th>
+                        <th>Implementation</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>BFS</td>
+                        <td>Uninformed</td>
+                        <td>Yes*</td>
+                        <td>Yes*</td>
+                        <td>O(b<sup>d</sup>)</td>
+                        <td>O(b<sup>d</sup>)</td>
+                        <td>Not assigned</td>
+                    </tr>
+
+                    <tr>
+                        <td>DFS</td>
+                        <td>Uninformed</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>O(b<sup>m</sup>)</td>
+                        <td>O(bm)</td>
+                        <td>Not assigned</td>
+                    </tr>
+
+                    <tr>
+                        <td>DLS</td>
+                        <td>Uninformed</td>
+                        <td>Within limit</td>
+                        <td>No</td>
+                        <td>O(b<sup>l</sup>)</td>
+                        <td>O(bl)</td>
+                        <td><strong>Implemented</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>IDDLS</td>
+                        <td>Uninformed</td>
+                        <td>Yes*</td>
+                        <td>Yes*</td>
+                        <td>O(b<sup>d</sup>)</td>
+                        <td>O(bd)</td>
+                        <td>Not assigned</td>
+                    </tr>
+
+                    <tr>
+                        <td>GBFS</td>
+                        <td>Informed</td>
+                        <td>No*</td>
+                        <td>No</td>
+                        <td>O(b<sup>m</sup>)</td>
+                        <td>O(b<sup>m</sup>)</td>
+                        <td>Not assigned</td>
+                    </tr>
+
+                    <tr>
+                        <td>A*</td>
+                        <td>Informed</td>
+                        <td>Yes*</td>
+                        <td>Yes*</td>
+                        <td>Exponential*</td>
+                        <td>Exponential*</td>
+                        <td>Not assigned</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <p class="complexity-note">
+            <strong>Notation:</strong>
+            b = branching factor, d = shallowest solution depth,
+            l = depth limit, m = maximum search depth.
+            Properties marked with * depend on assumptions such as
+            finite branching, repeated-state handling, and appropriate
+            cost conditions.
+        </p>
+
+        <p class="complexity-note">
+            Performance measurements for the unimplemented algorithms
+            are not fabricated. The interactive performance statistics
+            in this project are generated by the implemented DLS solver.
+        </p>
+
+    </div>
+</section>
+<section id="about" class="about">
+    <div class="page-width">
+
+        <div class="about-inner">
+
+            <div>
+
+                <p class="page-label">04 / PROJECT DETAILS</p>
+
+                <h2>
+                    Interactive 8-Puzzle
+                    Search Visualization
+                </h2>
+
+                <p>
+                    This project demonstrates how a state-space
+                    search algorithm explores possible configurations
+                    of the 8-Puzzle and how a depth boundary affects
+                    the search process.
+                </p>
+
+            </div>
+
+
+            <div class="about-details">
+
+                <div>
+                    <span>NAME</span>
+                    <strong>Shreya Gupta</strong>
+                </div>
+
+                <div>
+                    <span>REGISTRATION</span>
+                    <strong>24BDS0393</strong>
+                </div>
+
+                <div>
+                    <span>COURSE</span>
+                    <strong>Artificial Intelligence</strong>
+                </div>
+
+                <div>
+                    <span>ALGORITHM</span>
+                    <strong>Depth Limited Search</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+</main>
+
+
+<footer>
+    <div class="page-width footer-inner">
+
+        <span>DLS 8-Puzzle Solver</span>
+
+        <span>
+            Artificial Intelligence · 8-Puzzle · DLS
+        </span>
+
+    </div>
+</footer>
+
+
+<script src="js/puzzle.js"></script>
+<script src="js/dls.js"></script>
+<script src="js/visualization.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
