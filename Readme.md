@@ -129,17 +129,6 @@ Example initial state:
 2 8 3
 1 6 4
 7 0 5
-
-## Puzzle Representation
-
-The blank tile is represented internally by the value `0`.
-
-Example initial state:
-
-```text
-2 8 3
-1 6 4
-7 0 5
 ```
 
 Example goal state:

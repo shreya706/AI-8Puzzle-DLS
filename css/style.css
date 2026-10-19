@@ -542,6 +542,22 @@ input[type="range"] {
     font-weight:600;
 }
 
+.speed-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.speed-control select {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    background: var(--ivory);
+    color: var(--navy);
+    font: inherit;
+}
+
 .visual-grid {
     display:grid;
     grid-template-columns:1.2fr .8fr;
