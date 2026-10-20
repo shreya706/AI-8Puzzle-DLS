@@ -194,7 +194,7 @@ function handleRandomPuzzle() {
         return;
     }
 
-    initialState = generateRandomPuzzle(goalState, depthLimit);
+    initialState = generateRandomPuzzle(goalState);
 
     setPuzzleInputs("initialPuzzle", initialState);
 
@@ -202,7 +202,7 @@ function handleRandomPuzzle() {
     resetVisualizationDisplay();
 
     updateStatus(
-        "Random puzzle generated within the selected depth limit.",
+        "Random solvable puzzle generated.",
         "ready"
     );
 }

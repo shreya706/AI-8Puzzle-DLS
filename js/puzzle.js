@@ -93,29 +93,19 @@ function isSolvable(state, goal = DEFAULT_GOAL) {
         countInversions(goal) % 2;
 }
 
-function generateRandomPuzzle(goal = DEFAULT_GOAL, depthLimit = 8) {
-    const puzzle = [...goal];
-    const scrambleDepth = Math.floor(
-        Math.random() * Math.max(1, Math.min(depthLimit, 8))
-    ) + 1;
-    const visited = new Set([stateToKey(puzzle)]);
+function generateRandomPuzzle(goal = DEFAULT_GOAL) {
+    let puzzle;
 
-    for (let step = 0; step < scrambleDepth; step++) {
-        const choices = generateSuccessors(puzzle).filter(successor =>
-            !visited.has(stateToKey(successor.state))
-        );
+    do {
+        puzzle = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
-        if (!choices.length) {
-            break;
+        for (let i = puzzle.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+
+            [puzzle[i], puzzle[j]] =
+                [puzzle[j], puzzle[i]];
         }
-
-        const next = choices[
-            Math.floor(Math.random() * choices.length)
-        ];
-
-        puzzle.splice(0, puzzle.length, ...next.state);
-        visited.add(stateToKey(puzzle));
-    }
+    } while (!isSolvable(puzzle, goal));
 
     return puzzle;
 }
