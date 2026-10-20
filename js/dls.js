@@ -169,3 +169,10 @@ function depthLimitedSearch(initialState, goalState, depthLimit) {
     };
 }
 
+function getSolutionMoves(solutionPath) {
+    if (!solutionPath || solutionPath.length < 2) {
+        return [];
+    }
+
+    return solutionPath.slice(1).map(node => node.move);
+}

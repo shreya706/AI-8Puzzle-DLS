@@ -13,12 +13,13 @@ const DEFAULT_GOAL_STATE = [
 let initialState = [...DEFAULT_INITIAL_STATE];
 let goalState = [...DEFAULT_GOAL_STATE];
 let depthLimit = 8;
+let latestResult = null;
+
 document.addEventListener("DOMContentLoaded", initializeApplication);
 
 function initializeApplication() {
     setupDepthSlider();
     setupButtons();
-    setupVisualizationSpeed();
     setupPuzzleInputEditing();
 
     setPuzzleInputs("initialPuzzle", initialState);
@@ -28,14 +29,6 @@ function initializeApplication() {
     updateStatus("Ready to search", "ready");
     clearSearchResults();
     resetVisualizationDisplay();
-}
-
-function setupVisualizationSpeed() {
-    const selector = document.getElementById("visualizationSpeed");
-
-    selector?.addEventListener("change", () => {
-        changeVisualizationSpeed(Number(selector.value));
-    });
 }
 
 function setupDepthSlider() {
@@ -261,6 +254,8 @@ function handleRunDLS() {
         depthLimit
     );
 
+    latestResult = result;
+
     displaySearchResult(result);
     prepareVisualization(result);
 
@@ -288,6 +283,8 @@ function handleReset() {
     initialState = [...DEFAULT_INITIAL_STATE];
     goalState = [...DEFAULT_GOAL_STATE];
     depthLimit = 8;
+    latestResult = null;
+
     const slider = document.getElementById("depthSlider");
 
     if (slider) {

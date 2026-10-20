@@ -2,7 +2,7 @@ let searchHistory = [];
 let currentStep = 0;
 let visualizationTimer = null;
 
-let visualizationSpeed = 750;
+const visualizationSpeed = 750;
 
 function prepareVisualization(result) {
     searchHistory = result.events || [];
@@ -302,14 +302,6 @@ function stopVisualization() {
 
     clearInterval(visualizationTimer);
     visualizationTimer = null;
-}
-
-function changeVisualizationSpeed(speed) {
-    visualizationSpeed = speed;
-
-    if (visualizationTimer) {
-        startVisualization();
-    }
 }
 
 function resetVisualizationDisplay() {
